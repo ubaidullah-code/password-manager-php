@@ -1,6 +1,20 @@
 <?php
 include './config/databaseConnection.php';
 ?>
+<?php 
+if (isset($_SESSION['loginError'])) {
+    echo "
+    <div class='alert alert-warning alert-dismissible fade show
+                position-fixed top-0 start-50 translate-middle-x mt-3'
+         style='z-index:1055;'>
+        {$_SESSION['loginError']}
+        <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+    </div>
+    ";
+    unset($_SESSION['loginError']);
+}
+
+?>
 
 <!doctype html>
 <html lang="en">
@@ -37,7 +51,7 @@ include './config/databaseConnection.php';
                 />
                <label for="" class="form-label fs-5 fw-semibold">Password</label>
                <input
-                type="password"
+                type="text"
                 class="form-control"
                 name="userPass"
                 id=""

@@ -69,7 +69,7 @@ else if(isset($_SESSION['SignUpSuccess']))
                 placeholder="Please Enter Your Email" />
             <label for="" class="form-label fs-5 fw-semibold">Password</label>
             <input
-                type="password"
+                type="text"
                 class="form-control"
                 name="userPass"
                 id=""
