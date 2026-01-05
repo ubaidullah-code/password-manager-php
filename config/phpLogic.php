@@ -1,5 +1,6 @@
 <?php
 include './databaseConnection.php';
+session_start();
 ?>
 
 <!-- Sign-Up logic -->
@@ -35,7 +36,7 @@ include './databaseConnection.php';
     }
 }
 
-header("Location: ../signup.php");
+header("Location: ../login.php");
 exit;
     
     }

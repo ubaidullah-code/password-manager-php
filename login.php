@@ -1,98 +1,121 @@
 <?php
 include './config/databaseConnection.php';
-?>
-<?php 
-if (isset($_SESSION['loginError'])) {
-    echo "
-    <div class='alert alert-warning alert-dismissible fade show
-                position-fixed top-0 start-50 translate-middle-x mt-3'
-         style='z-index:1055;'>
-        {$_SESSION['loginError']}
-        <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
-    </div>
-    ";
-    unset($_SESSION['loginError']);
-}
 
+// Start session if not already started (required for session alerts)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Login Form</title>
-       
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-    </head>
+<head>
+    <title>Login - Password Manager</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <body>
-        <div class="d-flex justify-content-center align-items-center min-vh-100">
-        <form method="post" action="./config/phpLogic.php" class="mb-3 w-50 d-flex flex-column gap-1 shadow-lg py-4 px-3 rounded-3">
-                <h1 class="text-center ">Login Form</h1>
-                <label for="" class="form-label fs-5 fw-semibold">Email</label>
-                <input
-                type="email"
-                class="form-control"
-                name="userEmail"
-                id=""
-                aria-describedby="helpId"
-                placeholder="Please Enter Your Email"
-                />
-               <label for="" class="form-label fs-5 fw-semibold">Password</label>
-               <input
-                type="text"
-                class="form-control"
-                name="userPass"
-                id=""
-                aria-describedby="helpId"
-                placeholder="Please Enter Your Password"
-                />
-                <a class="fs-5 text-info" href="signup.php"
-                    >Don't have an account yet?</a>
-                
-               
-                <button
-                    name="handleLogin"
-                    type="submit"
-                    class="btn  text-white mt-2"
-                    style="background-color: 	#0c3635;"
-                >
-                    Login
-                </button>
-                
-            </div>
-        </form>
-        
-      
+    <!-- Bootstrap CSS v5.3.2 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 
+    <style>
+        body {
+            background-color: #44444E;
+            color: white;
+        }
 
+        .login-card {
+            background-color: #212529;
+            /* Dark grey/black card */
+            border: 1px solid #495057;
+            max-width: 450px;
+            width: 100%;
+        }
 
+        .form-control {
+            background-color: #2b2f32;
+            border: 1px solid #495057;
+            color: white;
+        }
 
+        .form-control:focus {
+            background-color: #2b2f32;
+            color: white;
+            border-color: #0d6efd;
+            box-shadow: none;
+        }
 
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+    </style>
+</head>
 
+<body>
 
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
+    <?php
+    if (isset($_SESSION['loginError'])) {
+        echo "
+        <div class='alert alert-warning alert-dismissible fade show
+                    position-fixed top-0 start-50 translate-middle-x mt-3'
+             style='z-index:1055;'>
+            {$_SESSION['loginError']}
+            <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+        </div>
+        ";
+        unset($_SESSION['loginError']);
+    }
+    ?>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="login-card shadow-lg p-4 rounded-3">
+            <form method="post" action="./config/phpLogic.php">
+                <h1 class="text-center mb-4">Login</h1>
+
+                <div class="mb-3">
+                    <label for="userEmail" class="form-label fs-5 fw-semibold">Email</label>
+                    <input 
+                        type="email" 
+                        class="form-control form-control-lg" 
+                        name="userEmail" 
+                        id="userEmail" 
+                        placeholder="Enter your email" 
+                        required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="userPass" class="form-label fs-5 fw-semibold">Password</label>
+                    <input 
+                        type="password" 
+                        class="form-control form-control-lg" 
+                        name="userPass" 
+                        id="userPass" 
+                        placeholder="Enter your password" 
+                        required />
+                </div>
+
+                <div class="mb-3">
+                    <a class="text-info text-decoration-none" href="signup.php">
+                        Don't have an account yet? Signup
+                    </a>
+                </div>
+
+                <div class="d-grid">
+                    <button 
+                        name="handleLogin" 
+                        type="submit" 
+                        class="btn text-white btn-lg mt-2" 
+                        style="background-color: #0c3635; border: 1px solid #145a58;">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+</body>
+
 </html>

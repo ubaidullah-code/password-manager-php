@@ -1,5 +1,6 @@
 <?php
     include "databaseConnection.php";
+
 ?>
 <?php
 
@@ -51,6 +52,7 @@
 
 if(isset($_POST['handleSave']))
 {
+    session_start();
     $webname = trim($_POST['webName']) ?? ""; // serviceName
     $weburl = trim($_POST['weburl']) ?? ""; //website url
     $webpass = trim($_POST['webpass']) ?? ""; // website password
@@ -80,5 +82,64 @@ if(isset($_POST['handleSave']))
 
 
 
+}
+?>
+
+<!-- Delete  -->
+
+<?php 
+    if(isset($_POST['handleDelete']))
+    {
+        $pass_id = $_POST['pass_id']?? "";
+
+        try {
+            $sql = "DELETE FROM password_store WHERE pass_id = ?";
+            $result = $conn->prepare($sql);
+            $result->bind_param('i', $pass_id);
+            $result->execute();
+            header('location: ../passManage.php');
+            exit();
+          
+        } catch (error $err) {
+        echo "$err";
+        }
+    }
+  
+    
+
+?>
+
+<!-- Logout password -->
+
+<?php 
+
+if (isset($_POST['handleLogout'])) {
+    session_start();
+    session_destroy();
+    session_unset();
+
+    header('location: ../login.php');
+    exit();
+}
+?>
+
+<?php
+
+if (isset($_POST['handleUpdate'])) {
+    $id = $_POST['pass_id'];
+    $name = $_POST['webName'];
+    $url = $_POST['weburl'];
+    $pass = encrypt($_POST['webpass']); // Encrypt again before saving
+
+    $sql = "UPDATE password_store SET serivceName=?, siteUrl=?, password=? WHERE pass_id=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssi", $name, $url, $pass, $id);
+    
+    if($stmt->execute()) {
+        header("Location: ../passManage.php?success=updated");
+    } else {
+        $_SESSION['managePassError'] = "Update failed.";
+        header("Location: ../passManage.php");
+    }
 }
 ?>
